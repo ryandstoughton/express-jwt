@@ -1,7 +1,7 @@
-import { User } from "../../models/User";
+import { User } from '../../models/User';
 
 declare module 'express' {
-  interface Request {
-    user?: User
-  }
+    interface Request {
+        user?: User;
+    }
 }
