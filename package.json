@@ -5,7 +5,7 @@
   "main": "index.ts",
   "scripts": {
     "start": "nodemon index.ts",
-    "lint": "eslint '*/**/*.{js,ts,tsx}' --quiet --fix"
+    "format": "prettier-eslint --write \"$PWD/**/*.{js,ts}\""
   },
   "keywords": [],
   "author": "",

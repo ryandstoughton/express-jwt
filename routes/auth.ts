@@ -1,8 +1,6 @@
-import { NextFunction, Request, Response } from 'express';
-import { User } from '../models/User';
-
-import express = require('express');
-import jwt = require('jsonwebtoken');
+import express, { NextFunction, Request, Response } from 'express';
+import jwt from 'jsonwebtoken';
+import authenticateJWT from '../helpers/authenticateJWT';
 
 const router = express.Router();
 
@@ -30,25 +28,6 @@ const accessTokenSecret = 'wowyouguessedit';
 const refreshTokenSecret = 'yourrefreshtokensecrethere';
 
 let refreshTokens: string[] = [];
-
-const authenticateJWT = (req: Request, res: Response, next: NextFunction) => {
-    const authHeader = req.headers.authorization;
-
-    if (authHeader) {
-        const token = authHeader.split(' ')[1];
-
-        jwt.verify(token, accessTokenSecret, (err: Error, user: User) => {
-            if (err) {
-                return res.sendStatus(403);
-            }
-
-            req.user = user;
-            next();
-        });
-    } else {
-        res.sendStatus(401);
-    }
-};
 
 /**
  * @swagger
@@ -100,7 +79,7 @@ router.post('/token', (req: Request, res: Response) => {
         return res.sendStatus(403);
     }
 
-    jwt.verify(token, refreshTokenSecret, (err: Error, user: User) => {
+    jwt.verify(token, refreshTokenSecret, (err, user) => {
         if (err) {
             return res.sendStatus(403);
         }
